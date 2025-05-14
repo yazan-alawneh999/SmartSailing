@@ -21,15 +21,37 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
+              "src/favicon.ico",
+              "src/assets",
               {
                 "glob": "**/*",
-                "input": "public"
+                "input": "public",
+                "output": "/assets/"
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "src/assets/css/bootstrap.min.css" ,
+              "src/assets/css/font-awesome.min.css",
+              "src/assets/css/elegant-icons.css" ,
+              "src/assets/css/nice-select.css" ,
+              "src/assets/css/jquery-ui.min.css" ,
+              "src/assets/css/owl.carousel.min.css",
+              "src/assets/css/slicknav.min.css"
+
             ],
-            "scripts": []
+
+            "scripts": [
+             "src/assets/js/jquery-3.3.1.min.js",
+             "src/assets/js/bootstrap.min.js",
+             "src/assets/js/jquery.nice-select.min.js",
+             "src/assets/js/jquery-ui.min.js",
+             "src/assets/js/jquery.slicknav.js",
+             "src/assets/js/mixitup.min.js",
+             "src/assets/js/owl.carousel.min.js",
+             "src/assets/js/main.js"
+
+            ]
           },
           "configurations": {
             "production": {
@@ -92,5 +114,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "dfc2ad73-4a8e-4846-8e2b-5a08bd7ef416"
   }
 }

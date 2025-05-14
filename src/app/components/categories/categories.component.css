@@ -1,0 +1,12 @@
+.categories__item.bg-cover {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 250px; /* Adjust height as needed */
+  display: flex;
+  align-items: flex-end;
+  padding: 20px;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
