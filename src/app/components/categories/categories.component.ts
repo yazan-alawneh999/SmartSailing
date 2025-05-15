@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
   styleUrl: './categories.component.css'
 })
 
+
 export class CategoriesComponent {
 
 }
