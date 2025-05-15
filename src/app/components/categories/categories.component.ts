@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
   imports: [],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css'
+
 })
 
 
