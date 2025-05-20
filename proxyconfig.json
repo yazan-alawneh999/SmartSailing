@@ -1,0 +1,15 @@
+{
+  "/category-service": {
+    "target": "http://89.116.23.212:9191",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+
+  "/product-service": {
+    "target": "http://89.116.23.212:9191",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}

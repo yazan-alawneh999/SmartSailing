@@ -4,6 +4,7 @@ import {NgOptimizedImage} from '@angular/common';
 @Component({
   selector: 'app-latest-product',
   imports: [
+    NgOptimizedImage
 
   ],
   templateUrl: './latest-product.component.html',

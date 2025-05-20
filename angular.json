@@ -13,6 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+
             "outputPath": "dist/smart-sailing",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -37,7 +38,11 @@
               "src/assets/css/nice-select.css" ,
               "src/assets/css/jquery-ui.min.css" ,
               "src/assets/css/owl.carousel.min.css",
-              "src/assets/css/slicknav.min.css"
+              "src/assets/css/slicknav.min.css",
+              "src/assets/css/style.css",
+              "node_modules/owl.carousel/dist/assets/owl.carousel.min.css",
+              "node_modules/owl.carousel/dist/assets/owl.theme.default.min.css"
+
 
             ],
 
@@ -49,7 +54,11 @@
              "src/assets/js/jquery.slicknav.js",
              "src/assets/js/mixitup.min.js",
              "src/assets/js/owl.carousel.min.js",
-             "src/assets/js/main.js"
+             "src/assets/js/main.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/owl.carousel/dist/owl.carousel.min.js"
+
+
 
             ]
           },
@@ -77,14 +86,20 @@
           },
           "defaultConfiguration": "production"
         },
+
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "proxyConfig": "proxyconfig.json"
+          },
           "configurations": {
             "production": {
               "buildTarget": "SmartSailing:build:production"
             },
             "development": {
-              "buildTarget": "SmartSailing:build:development"
+              "buildTarget": "SmartSailing:build:development",
+              "proxyConfig": "proxyconfig.json"
+
             }
           },
           "defaultConfiguration": "development"
@@ -95,6 +110,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
+
             "polyfills": [
               "zone.js",
               "zone.js/testing"

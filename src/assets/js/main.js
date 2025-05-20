@@ -101,7 +101,7 @@
     });
 
     /*--------------------------
-        Latest Product Slider
+        Latest ProductType Slider
     ----------------------------*/
     $(".latest-product__slider").owlCarousel({
         loop: true,
@@ -116,7 +116,7 @@
     });
 
     /*-----------------------------
-        Product Discount Slider
+        ProductType Discount Slider
     -------------------------------*/
     $(".product__discount__slider").owlCarousel({
         loop: true,
@@ -147,7 +147,7 @@
     });
 
     /*---------------------------------
-        Product Details Pic Slider
+        ProductType Details Pic Slider
     ----------------------------------*/
     $(".product__details__pic__slider").owlCarousel({
         loop: true,
@@ -186,7 +186,7 @@
     $("select").niceSelect();
 
     /*------------------
-		Single Product
+		Single ProductType
 	--------------------*/
     $('.product__details__pic__slider img').on('click', function () {
 

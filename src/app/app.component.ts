@@ -6,10 +6,11 @@ import {FeaturedComponent} from './components/featured/featured.component';
 import {PannerComponent} from './components/panner/panner.component';
 import {LatestProductComponent} from './components/latest-product/latest-product.component';
 import {FooterComponent} from './components/footer/footer.component';
+import {DepartmentsComponent} from './components/departments/departments.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, CategoriesComponent, FeaturedComponent, PannerComponent, LatestProductComponent, FooterComponent],
+  imports: [RouterOutlet, HeaderComponent, CategoriesComponent, FeaturedComponent, PannerComponent, LatestProductComponent, FooterComponent, DepartmentsComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
