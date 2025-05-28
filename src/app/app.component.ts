@@ -10,7 +10,16 @@ import {DepartmentsComponent} from './components/departments/departments.compone
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, CategoriesComponent, FeaturedComponent, PannerComponent, LatestProductComponent, FooterComponent, DepartmentsComponent],
+  imports: [
+    RouterOutlet,
+    HeaderComponent,
+    CategoriesComponent,
+    FeaturedComponent,
+    PannerComponent,
+    LatestProductComponent,
+    FooterComponent,
+    DepartmentsComponent
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
