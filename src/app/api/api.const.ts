@@ -1,3 +1,4 @@
+// Using internal Docker network for API calls
 export const apiConst = {
-  baseUrl: 'http://89.116.23.212:9191',
+  baseUrl: 'http://api-gateway-service:8085',
 }
