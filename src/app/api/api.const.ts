@@ -1,4 +1,6 @@
 // Using internal Docker network for API calls
+import {environment} from '../../environments/environment';
+
 export const apiConst = {
-  baseUrl: 'http://api-gateway-service:8085',
+  baseUrl: environment.apiUrl
 }

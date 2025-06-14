@@ -1,0 +1,14 @@
+{
+  "/category-service": {
+    "target": "http://62.171.152.61:9191/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  },
+  "/product-service": {
+    "target": "http://62.171.152.61:9191/",
+    "secure": false,
+    "changeOrigin": true,
+    "logLevel": "debug"
+  }
+}
