@@ -4,11 +4,14 @@ import {catchError, single} from 'rxjs';
 import {ProductResponse} from '../../response/ProductResponse.type';
 import {CommonModule} from '@angular/common';
 import {ProductType} from '../../models/Product.type';
+import {CartService} from '../../services/cart.service';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-featured',
   imports: [
-    CommonModule
+    CommonModule,
+    RouterLink
   ],
   templateUrl: './featured.component.html',
   styleUrl: './featured.component.css'
@@ -16,6 +19,8 @@ import {ProductType} from '../../models/Product.type';
 export class FeaturedComponent  implements OnInit {
 
   service = inject(ProductService)
+  cartService = inject(CartService)
+
 
   productsSignal = signal<ProductResponse>({
     _embedded: {
@@ -51,6 +56,8 @@ export class FeaturedComponent  implements OnInit {
       }
     }
   });
+
+
   ngOnInit(): void {
     this.getAllProducts("Example Store")
   }
@@ -60,8 +67,7 @@ export class FeaturedComponent  implements OnInit {
     this.service.getAllProducts(storeName)
       .pipe(catchError((err)=>{
         throw err
-      }))
-      .subscribe(products => {
+      })).subscribe(products => {
         console.log(products);
         this.productsSignal.set(products);
 
@@ -71,6 +77,10 @@ export class FeaturedComponent  implements OnInit {
 
   getProductImage(product: ProductType): string {
     return product.productImages?.[0]?.imageUrl || 'https://placehold.co/270x270';
+  }
+
+  addProduct(product: ProductType) {
+    this.cartService.addToCart(product);
   }
 
 }

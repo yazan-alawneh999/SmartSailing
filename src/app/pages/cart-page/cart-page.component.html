@@ -1,4 +1,3 @@
-
 <!-- Breadcrumb Section Begin -->
 <section class="breadcrumb-section set-bg" style="background-image: url(assets/img/breadcrumb.jpg)">
   <div class="container">
@@ -35,12 +34,12 @@
             </thead>
             <tbody>
             <tr *ngFor="let item of cartItems">
-              <!--              <td class="shoping__cart__item">-->
-              <!--                <img src="{{item.}}" alt="">-->
-              <!--                <h5>{{getProductName(item.productId)}}</h5>-->
-              <!--              </td>-->
+              <td class="shoping__cart__item">
+                <img src="{{getProductImage(item.product)}}" alt="">
+                <h5>{{ item.product.productName }}</h5>
+              </td>
               <td class="shoping__cart__price">
-                {{getProductPrice(item.productId) | currency}}
+                {{ getProductPrice(item.product.id) | currency }}
               </td>
               <td class="shoping__cart__quantity">
                 <div class="quantity">
@@ -50,10 +49,10 @@
                 </div>
               </td>
               <td class="shoping__cart__total">
-                {{getProductPrice(item.productId) * item.quantity | currency}}
+                {{ getProductPrice(item.product.id) * item.quantity | currency }}
               </td>
               <td class="shoping__cart__item__close">
-                <button (click)="removeFromCart(item.productId)">
+                <button (click)="removeFromCart(item.product.id)">
                   <mat-icon>delete</mat-icon>
                 </button>
               </td>
@@ -67,8 +66,8 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="shoping__cart__btns">
-          <a href="#" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
-          <a href="#" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
+          <a routerLink="" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+          <a routerLink = "/cart" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
             Upadate Cart</a>
         </div>
       </div>
@@ -87,8 +86,8 @@
         <div class="shoping__checkout">
           <h5>Cart Total</h5>
           <ul>
-            <li>Subtotal <span>$454.98</span></li>
-            <li>Total <span>$454.98</span></li>
+            <li>Subtotal <span>{{getTotal()| currency}}</span></li>
+            <li>Total <span>{{getTotal()| currency}}</span></li>
           </ul>
           <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
         </div>
@@ -100,11 +99,11 @@
     <div class="cart-summary__items">
       <div class="cart-summary__item">
         <span class="cart-summary__label">Total Items:</span>
-        <span class="cart-summary__value">{{totalQuantity}}</span>
+        <span class="cart-summary__value">{{ totalQuantity }}</span>
       </div>
       <div class="cart-summary__item">
         <span class="cart-summary__label">Total Amount:</span>
-        <span class="cart-summary__value">{{totalAmount | currency}}</span>
+        <span class="cart-summary__value">{{ totalAmount | currency }}</span>
       </div>
     </div>
 

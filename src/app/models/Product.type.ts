@@ -5,7 +5,7 @@ export type ProductType = {
   id : number
   salePrice: number ;
   subCategory: SubCategory ;
-  productImages : Array<Images>
+  productImages : Images[]
   deliveryServiceAvailable: boolean ;
   productDescription: string ;
   productName: string ;

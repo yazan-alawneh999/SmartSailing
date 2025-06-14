@@ -9,6 +9,9 @@ import { OrderDialogComponent } from '../../components/order-dialog/order-dialog
 import { CartService } from '../../services/cart.service';
 import { CheckoutService } from '../../services/checkout.service';
 import { Order, OrderLocation, OrderContact, OrderProduct } from '../../models/order.model';
+import {CartItem} from '../../models/Cartitem.model';
+import {ProductType} from '../../models/Product.type';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-cart-page',
@@ -17,13 +20,14 @@ import { Order, OrderLocation, OrderContact, OrderProduct } from '../../models/o
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    RouterLink
   ],
   templateUrl: './cart-page.component.html',
   styleUrl: './cart-page.component.css'
 })
 export class CartPageComponent implements OnInit {
-  cartItems: OrderProduct[] = [];
+  cartItems: CartItem[] = [];
   totalQuantity: number = 0;
   totalAmount: number = 0;
 
@@ -32,19 +36,21 @@ export class CartPageComponent implements OnInit {
     private checkoutService: CheckoutService,
     private dialog: MatDialog
   ) {
-    this.cartService.cart$.subscribe(cart => {
-      this.cartItems = cart;
-      this.calculateTotals();
-    });
+
   }
 
   ngOnInit(): void {
     // Initial subscription is handled in constructor
+    this.cartService.cart$.subscribe(cart => {
+      this.cartItems = cart;
+      console.log(this.cartItems);
+      this.calculateTotals();
+    });
   }
 
   calculateTotals(): void {
-    this.totalQuantity = this.cartItems.reduce((sum: number, item: OrderProduct) => sum + item.quantity, 0);
-    this.totalAmount = this.cartItems.reduce((sum: number, item: OrderProduct) => sum + (item.quantity * item.price), 0);
+    this.totalQuantity = this.cartItems.reduce((sum: number, item: CartItem) => sum + item.quantity, 0);
+    this.totalAmount = this.cartItems.reduce((sum: number, item: CartItem) => sum + (item.quantity * item.product.salePrice), 0);
   }
 
   updateQuantity(productId: number, quantity: number): void {
@@ -87,8 +93,16 @@ export class CartPageComponent implements OnInit {
   }
 
   getProductPrice(productId: number): number {
-    const item = this.cartItems.find(i => i.productId === productId);
-    return item?.price || 0;
+    const item = this.cartItems.find(i => i.product.id === productId);
+    return item?.product.salePrice || 0;
   }
 
+  getProductImage(product: ProductType): string {
+    return product.productImages?.[0]?.imageUrl || 'https://placehold.co/270x270';
+  }
+
+
+  getTotal(): number {
+    return this.cartItems.reduce((sum, item) => sum + item.quantity * item.product.salePrice, 0);
+  }
 }
