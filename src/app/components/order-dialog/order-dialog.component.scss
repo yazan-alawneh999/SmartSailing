@@ -1,0 +1,30 @@
+.form-section {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.full-width {
+  width: 100%;
+}
+
+.half-width {
+  width: 48%;
+  margin-right: 2%;
+}
+
+.coordinates {
+  display: flex;
+  gap: 2%;
+}
+
+.contact-item {
+  display: flex;
+  gap: 2%;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+mat-form-field {
+  margin-bottom: 1rem;
+}
