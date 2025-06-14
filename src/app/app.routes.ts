@@ -7,11 +7,11 @@ export const routes: Routes = [{
     m => m.HomePageComponent
   )
 }
-// ,
-  // {
-  //   path : 'cart',
-  //   loadComponent: () => import('./pages/cart-page/cart-page.component').then(
-  //     m => m.CartPageComponent
-  //   )
-  // }
+,
+  {
+    path : 'cart',
+    loadComponent: () => import('./pages/cart-page/cart-page.component').then(
+      m => m.CartPageComponent
+    )
+  }
   ];
