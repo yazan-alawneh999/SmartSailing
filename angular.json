@@ -82,6 +82,11 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "local": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -100,6 +105,10 @@
               "buildTarget": "SmartSailing:build:development",
               "proxyConfig": "proxyconfig.json"
 
+            },
+            "local": {
+              "buildTarget": "SmartSailing:build:local",
+              "proxyConfig": "proxy.local.conf.json"
             }
           },
           "defaultConfiguration": "development"
