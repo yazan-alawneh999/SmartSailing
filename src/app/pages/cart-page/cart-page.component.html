@@ -42,12 +42,17 @@
                 {{ getProductPrice(item.product.id) | currency }}
               </td>
               <td class="shoping__cart__quantity">
-                <div class="quantity">
-                  <div class="pro-qty">
-                    <input type="number" 
-                           [value]="item.quantity"
-                           (change)="updateQuantity(item.product.id, $any($event.target).value)">
-                  </div>
+                <div class="quantity-control">
+                  <button class="quantity-btn" (click)="updateQuantity(item.product.id, item.quantity - 1)" [disabled]="item.quantity <= 1">
+                    <mat-icon>remove</mat-icon>
+                  </button>
+                  <input type="number" 
+                         [value]="item.quantity"
+                         (change)="updateQuantity(item.product.id, $any($event.target).value)"
+                         class="quantity-input">
+                  <button class="quantity-btn" (click)="updateQuantity(item.product.id, item.quantity + 1)">
+                    <mat-icon>add</mat-icon>
+                  </button>
                 </div>
               </td>
               <td class="shoping__cart__total">
