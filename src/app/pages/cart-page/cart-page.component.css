@@ -10,4 +10,82 @@
   color: hsl(52, 0%, 98%);
 }
 
+.form-field {
+  position: relative;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.is-invalid {
+  border: 1px solid #dc3545 !important;
+}
+
+.error-message {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 4px;
+  position: absolute;
+  left: 0;
+  bottom: -20px;
+  width: 100%;
+}
+
+.delivery-form input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #e1e1e1;
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+.delivery-form input:focus {
+  outline: none;
+  border-color: #7fad39;
+}
+
+.contact-item {
+  margin-bottom: 32px;
+}
+
+.form-section {
+  margin-top: 32px;
+}
+
+::ng-deep .success-snackbar {
+  background: #4caf50;
+  color: white;
+}
+
+::ng-deep .error-snackbar {
+  background: #f44336;
+  color: white;
+}
+
+::ng-deep .mat-simple-snackbar-action {
+  color: white;
+}
+
+.contact-fields {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.contact-name, .contact-value {
+  flex: 1;
+  min-width: 200px;
+}
+
+.remove-contact {
+  margin-top: 10px;
+  cursor: pointer;
+  color: #dc3545;
+}
+
+.remove-contact:hover {
+  color: #bd2130;
+}
+
 
