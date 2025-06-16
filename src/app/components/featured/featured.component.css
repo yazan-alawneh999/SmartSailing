@@ -1,0 +1,12 @@
+::ng-deep .success-snackbar {
+  background: #4caf50;
+  color: white;
+}
+
+::ng-deep .success-snackbar .mat-simple-snackbar-action {
+  color: white;
+}
+
+::ng-deep .success-snackbar .mat-simple-snackbar-action:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
