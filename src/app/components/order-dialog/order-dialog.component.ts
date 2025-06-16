@@ -7,6 +7,7 @@ import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
 import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/material/card';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {NgForOf, NgIf} from '@angular/common';
+import {CheckoutService} from '../../services/checkout.service';
 
 @Component({
   selector: 'app-order-dialog',
@@ -33,12 +34,15 @@ import {NgForOf, NgIf} from '@angular/common';
 export class OrderDialogComponent implements OnInit {
   orderForm!: FormGroup;
   contacts!: FormArray;
-  storeId: number = 1; // Default store ID
+  storeId: number = 7; // Default store ID
+  latitude: number | undefined;
+  longitude: number | undefined;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { cartItems?: OrderProduct[], storeId?: number } = {},
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<OrderDialogComponent>
+    private dialogRef: MatDialogRef<OrderDialogComponent>,
+    private checkoutService: CheckoutService
   ) {
     this.initializeForm();
     this.storeId = data.storeId || this.storeId;
@@ -48,12 +52,26 @@ export class OrderDialogComponent implements OnInit {
     // Initial form initialization is handled in constructor
   }
 
+
+   getCurrentLocation():void {
+    this.checkoutService.getCurrentLocation()
+      .then(position => {
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+        console.log('Latitude:', this.latitude, 'Longitude:', this.longitude);
+      })
+      .catch(error => {
+        console.error('Error getting location:', error);
+      });
+  }
+
+
   private initializeForm(): void {
     this.orderForm = this.fb.group({
       streetAddress2: ['', Validators.required],
       buildingNumber: ['', Validators.required],
-      latitude: ['', Validators.required],
-      longitude: ['', Validators.required],
+      latitude: [this.latitude, Validators.required],
+      longitude: [this.longitude, Validators.required],
       contacts: this.fb.array([this.createContact()])
     });
     this.contacts = this.orderForm.get('contacts') as FormArray;
@@ -77,7 +95,10 @@ export class OrderDialogComponent implements OnInit {
   }
 
   onSubmit(): void {
+
+
     if (this.orderForm.valid) {
+
       const orderLocation: OrderLocation = {
         streetAddress2: this.orderForm.get('streetAddress2')?.value || '',
         buildingNumber: parseInt(this.orderForm.get('buildingNumber')?.value as string) || 0,

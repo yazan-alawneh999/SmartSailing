@@ -1,7 +1,7 @@
 export interface OrderProduct {
   productId: number;
   quantity: number;
-  price: number;
+
 }
 
 export interface OrderLocation {

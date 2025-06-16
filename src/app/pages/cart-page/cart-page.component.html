@@ -6,7 +6,7 @@
         <div class="breadcrumb__text">
           <h2>Shopping Cart</h2>
           <div class="breadcrumb__option">
-            <a href="./index.html">Home</a>
+            <a routerLink="/cart">Home</a>
             <span>Shopping Cart</span>
           </div>
         </div>
@@ -64,21 +64,60 @@
       </div>
     </div>
     <div class="row">
+
       <div class="col-lg-12">
         <div class="shoping__cart__btns">
           <a routerLink="" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
-          <a routerLink = "/cart" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
+          <a routerLink="/cart" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
             Upadate Cart</a>
         </div>
       </div>
       <div class="col-lg-6">
         <div class="shoping__continue">
           <div class="shoping__discount">
-            <h5>Discount Codes</h5>
-            <form action="#">
-              <input type="text" placeholder="Enter your coupon code">
-              <button type="submit" class="site-btn">APPLY COUPON</button>
+            <!--<div class="shoping__checkout">-->
+            <h5>Delivery Info</h5>
+            <form id="orderForm"  [formGroup]="orderForm">
+
+              <input type="text" style="margin-top: 12px" placeholder="Street" formControlName="streetAddress2">
+              <input type="text" style="margin-top: 12px" placeholder="Building Number" formControlName="buildingNumber">
+
+
+              <!--               <input type="text" placeholder="Enter your coupon code">-->
+              <!--              <button type="submit" class="site-btn" style="margin-top: 12px">ADD LOCATION</button>-->
+              <div class="form-section" style="margin-top: 24px">
+                <h5>Contact Information</h5>
+                <div formArrayName="contacts">
+                  <div *ngFor="let contact of contacts.controls; let i = index" [formGroupName]="i"
+                       class="contact-item">
+                    <div style="display: flex;flex-direction: row;flex-wrap: wrap;">
+
+                      <input formControlName="contactName" type="text" style="flex:3 ;margin-top: 12px" placeholder="Contact Name">
+                      <input formControlName="contactValue" type="text" style="flex:3 ;margin-top: 12px"
+                             placeholder="Contact Value">
+                      <!--<button class="site-btn"  style="flex:1;margin-top: 12px " (click)="removeContact(i)" *ngIf="contacts.length > 1">-->
+                      <mat-icon style="
+                      flex:1 ;margin-top: auto;margin-bottom: auto
+                      "
+                      (click)="removeContact(i)"
+                      *ngIf="contacts.length > 1">remove
+                      </mat-icon>
+                      <!--</button>-->
+
+                    </div>
+                  </div>
+
+                  <button class="site-btn" (click)="addContact()" style=" margin-top: 12px">
+                    <div style="display:flex;flex-direction: row;gap: 8px;justify-content: center">
+                      Add Contact
+                      <mat-icon>add</mat-icon>
+                    </div>
+
+                  </button>
+                </div>
+              </div>
             </form>
+
           </div>
         </div>
       </div>
@@ -86,31 +125,17 @@
         <div class="shoping__checkout">
           <h5>Cart Total</h5>
           <ul>
-            <li>Subtotal <span>{{getTotal()| currency}}</span></li>
-            <li>Total <span>{{getTotal()| currency}}</span></li>
+            <li>Subtotal <span>{{ getTotal()| currency }}</span></li>
+            <li>Total <span>{{ getTotal()| currency }}</span></li>
           </ul>
-          <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
+          <a href="#" class="primary-btn" (click)="submitFormById($event)">PROCEED TO CHECKOUT</a>
+
         </div>
       </div>
-    </div>
-  </div>
 
-  <div class="cart-summary">
-    <div class="cart-summary__items">
-      <div class="cart-summary__item">
-        <span class="cart-summary__label">Total Items:</span>
-        <span class="cart-summary__value">{{ totalQuantity }}</span>
-      </div>
-      <div class="cart-summary__item">
-        <span class="cart-summary__label">Total Amount:</span>
-        <span class="cart-summary__value">{{ totalAmount | currency }}</span>
-      </div>
     </div>
 
-    <button mat-raised-button color="primary" (click)="checkout()">
-      <mat-icon>shopping_cart_checkout</mat-icon>
-      Checkout
-    </button>
   </div>
+
 </section>
 <!-- Shoping Cart Section End -->

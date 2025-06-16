@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MatDialog } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { OrderDialogComponent } from '../../components/order-dialog/order-dialog.component';
-import { CartService } from '../../services/cart.service';
-import { CheckoutService } from '../../services/checkout.service';
-import { Order, OrderLocation, OrderContact, OrderProduct } from '../../models/order.model';
+import {Component, OnInit} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {MatDialog} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {OrderDialogComponent} from '../../components/order-dialog/order-dialog.component';
+import {CartService} from '../../services/cart.service';
+import {CheckoutService} from '../../services/checkout.service';
+import {Order, OrderLocation, OrderContact, OrderProduct} from '../../models/order.model';
 import {CartItem} from '../../models/Cartitem.model';
 import {ProductType} from '../../models/Product.type';
 import {RouterLink} from '@angular/router';
+import {FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+
 
 @Component({
   selector: 'app-cart-page',
@@ -21,7 +23,8 @@ import {RouterLink} from '@angular/router';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
-    RouterLink
+    RouterLink,
+    ReactiveFormsModule
   ],
   templateUrl: './cart-page.component.html',
   styleUrl: './cart-page.component.css'
@@ -30,11 +33,19 @@ export class CartPageComponent implements OnInit {
   cartItems: CartItem[] = [];
   totalQuantity: number = 0;
   totalAmount: number = 0;
+  latitude: number | undefined;
+  longitude: number | undefined;
+
+  orderForm!: FormGroup;
+  contacts!: FormArray;
+  storeId: number = 7; // Default store ID
+
 
   constructor(
     private cartService: CartService,
     private checkoutService: CheckoutService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private fb: FormBuilder,
   ) {
 
   }
@@ -46,6 +57,89 @@ export class CartPageComponent implements OnInit {
       console.log(this.cartItems);
       this.calculateTotals();
     });
+
+    this.initializeForm();
+    this.storeId = this.storeId;
+    this.getCurrentLocation()
+
+  }
+
+  private initializeForm(): void {
+    this.orderForm = this.fb.group({
+      streetAddress2: ['', Validators.required],
+      buildingNumber: ['', Validators.required],
+      // latitude: [this.latitude, Validators.required],
+      // longitude: [this.longitude, Validators.required],
+      contacts: this.fb.array([this.createContact()])
+    });
+    this.contacts = this.orderForm.get('contacts') as FormArray;
+  }
+
+  private createContact(): FormGroup {
+    return this.fb.group({
+      contactName: ['', Validators.required],
+      contactValue: ['', Validators.required]
+    });
+  }
+
+  addContact(): void {
+    this.contacts.push(this.createContact());
+  }
+
+  removeContact(index: number): void {
+    if (index >= 0 && index < this.contacts.length) {
+      this.contacts.removeAt(index);
+    }
+  }
+
+  async onSubmit() {
+    console.log("onSubmit");
+    // if (this.orderForm.valid) {
+      console.log("orderForm");
+      const orderLocation: OrderLocation = {
+        streetAddress2: this.orderForm.get('streetAddress2')?.value || '',
+        buildingNumber: this.orderForm.get('buildingNumber')?.value  || 0,
+        latitude: this.latitude || 0,
+        longitude: this.longitude || 0
+      };
+
+      const orderContacts: OrderContact[] = this.contacts.value as OrderContact[];
+
+      const order: Order = {
+        storeId: this.storeId,
+        orderProducts: this.cartItems.map(item => ({
+          productId: item.product.id,
+          quantity: item.quantity
+        })),
+        orderLocation,
+        orderContacts
+      };
+
+    console.log(order)
+      this.checkoutService.createOrder(order).subscribe({
+        next: () => {
+          this.cartService.clearCart();
+          // Show success message
+        },
+        error: (error) => {
+          // Handle error
+          console.log(error)
+        }
+      });
+
+    // }
+  }
+
+  getCurrentLocation(): void {
+    this.checkoutService.getCurrentLocation()
+      .then(position => {
+        this.latitude = position.coords.latitude;
+        this.longitude = position.coords.longitude;
+        console.log('Latitude:', this.latitude, 'Longitude:', this.longitude);
+      })
+      .catch(error => {
+        console.error('Error getting location:', error);
+      });
   }
 
   calculateTotals(): void {
@@ -66,7 +160,7 @@ export class CartPageComponent implements OnInit {
       width: '500px',
       data: {
         cartItems: this.cartItems,
-        storeId: 1
+        storeId: 7
       }
     });
 
@@ -104,5 +198,15 @@ export class CartPageComponent implements OnInit {
 
   getTotal(): number {
     return this.cartItems.reduce((sum, item) => sum + item.quantity * item.product.salePrice, 0);
+  }
+
+
+  async submitFormById(event: Event) {
+    event.preventDefault(); // Stop page navigation
+    const form = document.getElementById('orderForm') as HTMLFormElement;
+    if (form) {
+      form.requestSubmit(); // This triggers the form's ngSubmit
+      await this.onSubmit()
+    }
   }
 }
