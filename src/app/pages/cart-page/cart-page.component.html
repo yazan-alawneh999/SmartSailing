@@ -77,33 +77,55 @@
           <div class="shoping__discount">
             <!--<div class="shoping__checkout">-->
             <h5>Delivery Info</h5>
-            <form id="orderForm"  [formGroup]="orderForm">
+            <form id="orderForm" [formGroup]="orderForm" class="delivery-form">
+              <div class="form-field">
+                <input type="text" 
+                       placeholder="Street" 
+                       formControlName="streetAddress2"
+                       [class.is-invalid]="orderForm.get('streetAddress2')?.invalid && orderForm.get('streetAddress2')?.touched">
+                <div class="error-message" *ngIf="orderForm.get('streetAddress2')?.invalid && orderForm.get('streetAddress2')?.touched">
+                  Street address is required
+                </div>
+              </div>
 
-              <input type="text" style="margin-top: 12px" placeholder="Street" formControlName="streetAddress2">
-              <input type="text" style="margin-top: 12px" placeholder="Building Number" formControlName="buildingNumber">
+              <div class="form-field">
+                <input type="text" 
+                       placeholder="Building Number" 
+                       formControlName="buildingNumber"
+                       [class.is-invalid]="orderForm.get('buildingNumber')?.invalid && orderForm.get('buildingNumber')?.touched">
+                <div class="error-message" *ngIf="orderForm.get('buildingNumber')?.invalid && orderForm.get('buildingNumber')?.touched">
+                  Building number is required
+                </div>
+              </div>
 
-
-              <!--               <input type="text" placeholder="Enter your coupon code">-->
-              <!--              <button type="submit" class="site-btn" style="margin-top: 12px">ADD LOCATION</button>-->
-              <div class="form-section" style="margin-top: 24px">
+              <div class="form-section">
                 <h5>Contact Information</h5>
                 <div formArrayName="contacts">
-                  <div *ngFor="let contact of contacts.controls; let i = index" [formGroupName]="i"
-                       class="contact-item">
-                    <div style="display: flex;flex-direction: row;flex-wrap: wrap;">
+                  <div *ngFor="let contact of contacts.controls; let i = index" [formGroupName]="i" class="contact-item">
+                    <div class="contact-fields">
+                      <div class="form-field contact-name">
+                        <input formControlName="contactName" 
+                               type="text" 
+                               placeholder="Contact Name"
+                               [class.is-invalid]="contact.get('contactName')?.invalid && contact.get('contactName')?.touched">
+                        <div class="error-message" *ngIf="contact.get('contactName')?.invalid && contact.get('contactName')?.touched">
+                          Contact name is required
+                        </div>
+                      </div>
 
-                      <input formControlName="contactName" type="text" style="flex:3 ;margin-top: 12px" placeholder="Contact Name">
-                      <input formControlName="contactValue" type="text" style="flex:3 ;margin-top: 12px"
-                             placeholder="Contact Value">
-                      <!--<button class="site-btn"  style="flex:1;margin-top: 12px " (click)="removeContact(i)" *ngIf="contacts.length > 1">-->
-                      <mat-icon style="
-                      flex:1 ;margin-top: auto;margin-bottom: auto
-                      "
-                      (click)="removeContact(i)"
-                      *ngIf="contacts.length > 1">remove
-                      </mat-icon>
-                      <!--</button>-->
+                      <div class="form-field contact-value">
+                        <input formControlName="contactValue" 
+                               type="text"
+                               placeholder="Contact Value"
+                               [class.is-invalid]="contact.get('contactValue')?.invalid && contact.get('contactValue')?.touched">
+                        <div class="error-message" *ngIf="contact.get('contactValue')?.invalid && contact.get('contactValue')?.touched">
+                          Contact value is required
+                        </div>
+                      </div>
 
+                      <mat-icon class="remove-contact"
+                               (click)="removeContact(i)"
+                               *ngIf="contacts.length > 1">remove</mat-icon>
                     </div>
                   </div>
 
