@@ -8,9 +8,13 @@
             <i class="fa fa-bars"></i>
             <span>All departments</span>
           </div>
-          <ul [ngClass]="{ 'd-block': showCategories(), 'd-none': !showCategories() }" *ngFor="let dep of categories()._embedded.categoryDtoList" >
-            <li><a href="#">{{dep.categoryName}}</a></li>
-          </ul>
+          <div class="departments-container">
+            <ul class="category-list">
+              <li class="category-item" *ngFor="let category of categories()._embedded.categoryDtoList">
+                <a class="category-link" href="#">{{category.categoryName}}</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <div class="col-lg-9">

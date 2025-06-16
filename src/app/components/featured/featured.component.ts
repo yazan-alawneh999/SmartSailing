@@ -6,6 +6,8 @@ import {CommonModule} from '@angular/common';
 import {ProductType} from '../../models/Product.type';
 import {CartService} from '../../services/cart.service';
 import {RouterLink} from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-featured',
@@ -20,6 +22,8 @@ export class FeaturedComponent  implements OnInit {
 
   service = inject(ProductService)
   cartService = inject(CartService)
+  snackBar = inject(MatSnackBar)
+  router = inject(Router)
 
 
   productsSignal = signal<ProductResponse>({
@@ -81,6 +85,24 @@ export class FeaturedComponent  implements OnInit {
 
   addProduct(product: ProductType) {
     this.cartService.addToCart(product);
+    this.showCartNotification();
+  }
+
+  private showCartNotification() {
+    const snackBarRef = this.snackBar.open(
+      'Product added to cart successfully!',
+      'View Cart',
+      {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        panelClass: ['success-snackbar']
+      }
+    );
+
+    snackBarRef.onAction().subscribe(() => {
+      this.router.navigate(['/cart']);
+    });
   }
 
 }
