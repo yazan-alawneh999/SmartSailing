@@ -4,7 +4,7 @@
       <mat-card-header>
         <mat-card-title>Order Details</mat-card-title>
       </mat-card-header>
-      
+
       <mat-card-content>
         <div class="form-section">
           <h3>Delivery Location</h3>
@@ -12,18 +12,18 @@
             <mat-label>Street Address</mat-label>
             <input matInput formControlName="streetAddress2">
           </mat-form-field>
-          
+
           <mat-form-field class="half-width">
             <mat-label>Building Number</mat-label>
             <input matInput formControlName="buildingNumber" type="number">
           </mat-form-field>
-          
+
           <div class="coordinates">
             <mat-form-field class="half-width">
               <mat-label>Latitude</mat-label>
-              <input matInput formControlName="latitude" type="number">
+              <input (click)="getCurrentLocation()" matInput formControlName="latitude" type="number">
             </mat-form-field>
-            
+
             <mat-form-field class="half-width">
               <mat-label>Longitude</mat-label>
               <input matInput formControlName="longitude" type="number">
@@ -39,18 +39,18 @@
                 <mat-label>Contact Name</mat-label>
                 <input matInput formControlName="contactName">
               </mat-form-field>
-              
+
               <mat-form-field class="half-width">
                 <mat-label>Contact Value</mat-label>
                 <input matInput formControlName="contactValue">
               </mat-form-field>
-              
+
               <button mat-icon-button (click)="removeContact(i)" *ngIf="contacts.length > 1">
                 <mat-icon>remove</mat-icon>
               </button>
             </div>
           </div>
-          
+
           <button mat-raised-button (click)="addContact()" color="primary">
             Add Contact
             <mat-icon>add</mat-icon>
