@@ -180,15 +180,27 @@ export class CartPageComponent implements OnInit {
 
   calculateTotals(): void {
     this.totalQuantity = this.cartItems.reduce((sum: number, item: CartItem) => sum + item.quantity, 0);
-    this.totalAmount = this.cartItems.reduce((sum: number, item: CartItem) => sum + (item.quantity * item.product.salePrice), 0);
+    this.totalAmount = this.getTotal();
   }
 
-  updateQuantity(productId: number, quantity: number): void {
-    this.cartService.updateQuantity(productId, quantity);
+  updateQuantity(productId: number, quantity: string | number): void {
+    const numericQuantity = typeof quantity === 'string' ? parseInt(quantity, 10) : quantity;
+    
+    if (!isNaN(numericQuantity) && numericQuantity > 0) {
+      this.cartService.updateQuantity(productId, numericQuantity);
+      this.calculateTotals(); // Recalculate totals after quantity update
+    } else {
+      // Reset to previous quantity if invalid input
+      const item = this.cartItems.find(i => i.product.id === productId);
+      if (item) {
+        this.cartService.updateQuantity(productId, item.quantity);
+      }
+    }
   }
 
   removeFromCart(productId: number): void {
     this.cartService.removeFromCart(productId);
+    this.calculateTotals(); // Recalculate totals after removal
   }
 
   checkout(): void {
@@ -231,8 +243,17 @@ export class CartPageComponent implements OnInit {
     return product.productImages?.[0]?.imageUrl || 'https://placehold.co/270x270';
   }
 
+  getProductTotal(productId: number): number {
+    const item = this.cartItems.find(i => i.product.id === productId);
+    return item ? item.quantity * item.product.salePrice : 0;
+  }
+
   getTotal(): number {
-    return this.cartItems.reduce((sum, item) => sum + item.quantity * item.product.salePrice, 0);
+    return this.cartItems.reduce((sum, item) => sum + (item.quantity * item.product.salePrice), 0);
+  }
+
+  getSubtotal(): number {
+    return this.getTotal();
   }
 
   async submitFormById(event: Event) {
